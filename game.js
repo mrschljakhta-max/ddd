@@ -286,4 +286,15 @@ $("restart").addEventListener("click",()=>{
 $("sound").addEventListener("click",()=>{
  sound=!sound;$("sound").textContent=sound?"♪ Звук: увімк.":"♪ Звук: вимк.";audio(700);
 });
+// Спільна механіка гардероба для всіх ігор. Рахунок «Дурня» лишається окремим.
+window.CardDuelRoom = {
+  adjustOutfit(result) {
+    const previous=memory.stage;
+    memory.stage=Math.min(5,Math.max(0,previous+(result==="win"?1:result==="lose"?-1:0)));
+    save();wardrobe();
+    return {previous,current:memory.stage,changed:memory.stage!==previous};
+  },
+  speak: say,
+  beep: audio
+};
 wardrobe();newGame();
