@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07131d">
+<meta name="description" content="Картковий двобій: підкидний дурень на 36 карт проти ШІ">
+<title>Картковий двобій · Game Room</title>
+<link rel="stylesheet" href="styles.css">
+<script src="game.js" defer></script>
+</head>
+<body>
+<main class="page">
+<header class="head">
+ <div class="identity"><div class="mark">♠</div><div><div class="eyebrow">GAME ROOM · ПРИВАТНИЙ ДВОБІЙ</div><h1>Картковий двобій</h1></div></div>
+ <div class="topbuttons"><span class="tag">ПІДКИДНИЙ ДУРЕНЬ · 36 КАРТ</span><button id="sound" class="minor" type="button" title="Увімкнути звук">♪ Звук: вимк.</button><button id="restart" class="minor" type="button">↻ Нова партія</button></div>
+</header>
+<div class="grid">
+ <section class="arena" aria-label="Ігрове поле">
+  <div class="arena-head">
+   <div class="playername"><span class="icon-circle">✧</span><div><b>Суперниця · ШІ</b><small>Локальний суперник · чесна гра</small></div></div>
+   <div class="score"><div>ТИ <strong id="user-score">0</strong> <span>:</span> <strong id="ai-score">0</strong> ШІ</div><small>Зіграно партій: <span id="matches">0</span></small></div>
+  </div>
+  <div class="top-hand"><div class="label">КАРТИ СУПЕРНИЦІ · <span id="ai-count">6</span></div><div id="ai-hand" class="hand ai-hand"></div></div>
+  <div class="felt-area">
+   <div class="felt">
+    <div class="trump"><small>КОЗИР</small><b id="trump-symbol">♠</b></div>
+    <div id="table-center" class="table-center" aria-label="Карти на столі"></div>
+    <div class="deckinfo"><div id="deck-icon" class="minideck">✦</div><b id="deck-count">24</b><small>КОЛОДА</small></div>
+   </div>
+  </div>
+  <div class="statebar"><div class="statelabel"><i></i><b id="phase-title">Початок партії</b></div><div class="statehint" id="phase-desc">Зараз визначимо першого гравця</div></div>
+  <div class="you">
+   <div class="you-head"><div class="playername"><span class="icon-circle">♠</span><div><b>Твої карти</b><small id="player-count">6 карт</small></div></div><span class="hint" id="hand-instruction">Обери карту</span></div>
+   <div id="player-hand" class="hand self-hand"></div>
+   <div class="buttons"><button id="done" class="action primary" type="button" hidden>Бито ✓</button><button id="take" class="action danger" type="button" hidden>Забрати карти</button></div>
+  </div>
+  <div id="outcome" class="overlay" hidden><div class="dialog"><div class="bigemoji" id="outcome-emoji">🏆</div><h2 id="outcome-title">Перемога!</h2><p id="outcome-text"></p><div class="outcome-clothing" id="outcome-clothes"></div><button id="next" class="action primary" type="button">Наступна партія →</button><small>Гардероб змінюється після завершення партії.</small></div></div>
+ </section>
+ <aside class="panel">
+  <div class="panel-top"><div><span class="eyebrow">ТВОЯ СУПЕРНИЦЯ</span><h2>Моя ігрова версія</h2></div><span class="adult">Вигадана персонажка 25+</span></div>
+  <div class="portrait"><div class="portrait-tag">DRESS-UP / DUEL</div>
+   <svg class="woman" viewBox="0 0 320 490" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Зображення дорослої вигаданої жінки з п'ятьма шарами одягу">
+    <defs>
+     <linearGradient id="skin" x1=".12" x2=".91" y1="0" y2="1"><stop stop-color="#f9d9bc"/><stop offset=".32" stop-color="#dba992"/><stop offset=".68" stop-color="#c88e7c"/><stop offset="1" stop-color="#a86e65"/></linearGradient>
+     <linearGradient id="hair" x1="0" x2="1"><stop stop-color="#161922"/><stop offset=".44" stop-color="#49313a"/><stop offset=".7" stop-color="#271d2c"/><stop offset="1" stop-color="#10141e"/></linearGradient>
+     <linearGradient id="jacketgrad" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#d6b897"/><stop offset=".44" stop-color="#b58e6f"/><stop offset="1" stop-color="#755f59"/></linearGradient>
+     <linearGradient id="dress" x1="0" x2=".9" y1="0" y2="1"><stop stop-color="#4b7582"/><stop offset=".45" stop-color="#2d5063"/><stop offset="1" stop-color="#1b344c"/></linearGradient>
+     <linearGradient id="topgrad" x1="0" x2="1"><stop stop-color="#c5b1a2"/><stop offset=".35" stop-color="#f0e2d9"/><stop offset=".72" stop-color="#e0cabc"/><stop offset="1" stop-color="#ad978e"/></linearGradient>
+     <radialGradient id="faceLight"><stop stop-color="#ffe1c4"/><stop offset="1" stop-color="#c68c79"/></radialGradient>
+     <filter id="softshadow" x="-30%" width="160%" y="-30%" height="160%"><feGaussianBlur stdDeviation="4"/></filter>
+    </defs>
+    <ellipse cx="158" cy="472" rx="91" ry="14" fill="#02060b" opacity=".5" filter="url(#softshadow)"/>
+    <path d="M100 121C83 39 118 12 163 14C219 14 237 70 222 156L235 300L91 299C106 233 94 176 100 121Z" fill="url(#hair)"/>
+    <path d="M127 307L122 461L148 461L163 353L171 461L196 461L198 304Z" fill="url(#skin)"/>
+    <path d="M119 462L151 462L148 477L107 478ZM171 462L198 462L214 478L171 478Z" fill="#18212b"/>
+    <path d="M136 137L136 163L105 180L89 222L85 304Q95 318 103 305L117 245L126 225L122 311Q164 329 202 309L199 224L211 244L217 301Q230 313 236 300L229 224Q221 178 191 167L179 154L178 135Z" fill="url(#skin)" stroke="#6f5254" stroke-opacity=".2" stroke-width="1.5"/>
+    <path d="M123 186Q139 166 149 182L160 201L172 182Q184 170 199 188L197 287Q204 319 195 337Q160 358 119 336Q112 304 121 275Z" fill="url(#dress)"/>
+    <path d="M128 213Q161 230 192 210M159 214L158 332" fill="none" stroke="#c9e6e0" stroke-opacity=".18" stroke-width="2"/>
+    <g id="layer-tights" class="layer"><path d="M124 332L162 349L148 462L123 460ZM162 350L194 334L197 461L171 460Z" fill="#263145" opacity=".97"/><path d="M134 353L133 446M185 355L187 445" stroke="#677081" stroke-opacity=".24"/></g>
+    <g id="layer-blouse" class="layer"><path d="M122 184L141 172L159 195L175 174L198 183L200 245L194 324Q156 340 120 321L119 246Z" fill="url(#topgrad)" stroke="#cab6aa"/><path d="M140 171L159 197L176 171M159 199L157 326" fill="none" stroke="#b39e99" stroke-width="2"/><circle cx="161" cy="223" r="2" fill="#88716d"/><circle cx="160" cy="246" r="2" fill="#88716d"/><circle cx="159" cy="268" r="2" fill="#88716d"/><path d="M122 245Q135 253 145 256M181 260Q196 251 199 243" fill="none" stroke="#fff" opacity=".18"/></g>
+    <g id="layer-skirt" class="layer"><path d="M122 313L193 312Q194 347 217 389Q164 406 100 389Q119 351 122 313Z" fill="url(#dress)"/><path d="M120 320Q158 331 198 318M133 342L119 385M186 343L198 388" fill="none" stroke="#9bc3c5" stroke-opacity=".3" stroke-width="2"/></g>
+    <g id="layer-jacket" class="layer"><path d="M122 175Q101 171 98 190L80 263L102 271L119 224L129 319L152 324L152 193Z" fill="url(#jacketgrad)" stroke="#967962"/><path d="M198 174Q219 177 222 193L244 262L222 271L200 227L195 320L172 325L168 195Z" fill="url(#jacketgrad)" stroke="#967962"/><path d="M121 179L152 205L140 229L122 220L142 251L153 319M198 178L168 205L181 228L201 219L182 251L172 318" fill="none" stroke="#775b4d" stroke-width="2"/><path d="M82 261L103 267M221 268L241 259" stroke="#edd6b2" stroke-width="3"/></g>
+    <g id="layer-scarf" class="layer"><path d="M135 172Q159 190 183 170L194 187Q159 211 126 186Z" fill="#a96868"/><path d="M176 196L191 197L182 268L161 260Z" fill="#bb7778"/><path d="M162 259L183 268L181 279L159 267Z" fill="#dc9390"/></g>
+    <path d="M121 85Q116 48 162 43Q203 47 203 90L197 128Q182 157 163 158Q137 154 124 128Z" fill="url(#faceLight)" stroke="#af756c" stroke-opacity=".22"/>
+    <path d="M123 98Q117 55 146 43Q178 24 204 65Q206 90 201 108L193 78Q163 86 141 68Q126 86 123 98Z" fill="url(#hair)"/>
+    <path d="M121 88Q105 145 121 181L134 166Q123 130 129 82ZM199 90Q213 145 194 184L184 166Q200 127 193 86Z" fill="url(#hair)"/>
+    <path d="M134 103Q143 98 152 103M171 102Q181 98 189 103" fill="none" stroke="#513439" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M136 109Q146 105 153 110M172 110Q179 105 188 109" stroke="#f9e1ca" stroke-width="2.4" fill="none"/>
+    <circle cx="145" cy="110" r="3" fill="#334251"/><circle cx="179" cy="110" r="3" fill="#334251"/><circle cx="145.7" cy="109" r=".9" fill="#fff"/><circle cx="179.7" cy="109" r=".9" fill="#fff"/>
+    <path d="M163 112L158 131Q163 134 168 131" stroke="#b77c73" fill="none" stroke-width="2" stroke-linecap="round"/>
+    <path d="M149 140Q163 149 177 140Q163 144 149 140Z" fill="#a95060"/><path d="M149 139Q164 141 177 139" fill="none" stroke="#efafaa" stroke-width="1.4"/>
+    <circle cx="123" cy="121" r="3" fill="#d9b278"/><circle cx="201" cy="121" r="3" fill="#d9b278"/>
+   </svg>
+   <div class="portrait-footer">ПЕРЕМОГА ЗМІНЮЄ ГАРДЕРОБ</div>
+  </div>
+  <div class="wear-title"><b>Знято речей</b><b id="stage-label">0 / 5</b></div>
+  <div class="wardrobe" id="wardrobe"><div class="garment" data-tier="1"><span>🧣</span><small>Шарф</small></div><div class="garment" data-tier="2"><span>🧥</span><small>Жакет</small></div><div class="garment" data-tier="3"><span>👗</span><small>Спідниця</small></div><div class="garment" data-tier="4"><span>👚</span><small>Блуза</small></div><div class="garment" data-tier="5"><span>🧦</span><small>Легінси</small></div></div>
+  <div class="bubble" id="bubble" aria-live="polite">Почнемо? Подивимось, хто сьогодні залишиться в дурнях. 😏</div>
+  <div id="log" class="log" aria-live="polite"></div>
+  <div class="rules"><b>Правила:</b> 36 карт, до шести карт на руках, козир, підкидання лише номіналів зі столу. Твоя перемога знімає одну річ, моя повертає одну. Після п'ятої — закрите базове вбрання.</div>
+  <p class="disclaimer">ШІ поки локальний, без підключення до ChatGPT API. Результати зберігаються у цьому браузері.</p>
+ </aside>
+</div>
+<div id="toast" class="toast" role="status"></div>
+</main>
+</body>
+</html>
