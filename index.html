@@ -4,19 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07131d">
-<meta name="description" content="Картковий двобій: підкидний дурень на 36 карт проти ШІ">
-<title>Картковий двобій · Game Room</title>
+<meta name="description" content="Game Room: підкидний дурень і хрестики-нулики проти ШІ">
+<title>Game Room · Дурень і хрестики-нулики</title>
 <link rel="stylesheet" href="styles.css">
 <script src="game.js" defer></script>
+<script src="tictactoe.js" defer></script>
 </head>
 <body>
 <main class="page">
 <header class="head">
- <div class="identity"><div class="mark">♠</div><div><div class="eyebrow">GAME ROOM · ПРИВАТНИЙ ДВОБІЙ</div><h1>Картковий двобій</h1></div></div>
- <div class="topbuttons"><span class="tag">ПІДКИДНИЙ ДУРЕНЬ · 36 КАРТ</span><button id="sound" class="minor" type="button" title="Увімкнути звук">♪ Звук: вимк.</button><button id="restart" class="minor" type="button">↻ Нова партія</button></div>
+ <div class="identity"><div class="mark">♠</div><div><div class="eyebrow">GAME ROOM · ПРИВАТНИЙ ДВОБІЙ</div><h1>Game Room</h1></div></div>
+ <div class="topbuttons"><span class="tag" id="mode-name">ПІДКИДНИЙ ДУРЕНЬ · 36 КАРТ</span><button id="sound" class="minor" type="button" title="Увімкнути звук">♪ Звук: вимк.</button><button id="restart" class="minor" type="button">↻ Нова партія</button></div>
 </header>
+<nav class="game-nav" aria-label="Вибір гри" role="tablist">
+ <button class="game-tab active" type="button" id="tab-durak" role="tab" aria-controls="durak-screen" aria-selected="true" data-mode="durak"><span class="nav-symbol">♠</span><span>Підкидний дурень</span></button>
+ <button class="game-tab" type="button" id="tab-ttt" role="tab" aria-controls="ttt-screen" aria-selected="false" data-mode="ttt"><span class="nav-symbol">✕◯</span><span>Хрестики-нулики</span></button>
+</nav>
 <div class="grid">
  <section class="arena" aria-label="Ігрове поле">
+ <div id="durak-screen" class="game-screen" role="tabpanel" aria-labelledby="tab-durak">
   <div class="arena-head">
    <div class="playername"><span class="icon-circle">✧</span><div><b>Суперниця · ШІ</b><small>Локальний суперник · чесна гра</small></div></div>
    <div class="score"><div>ТИ <strong id="user-score">0</strong> <span>:</span> <strong id="ai-score">0</strong> ШІ</div><small>Зіграно партій: <span id="matches">0</span></small></div>
@@ -36,6 +42,38 @@
    <div class="buttons"><button id="done" class="action primary" type="button" hidden>Бито ✓</button><button id="take" class="action danger" type="button" hidden>Забрати карти</button></div>
   </div>
   <div id="outcome" class="overlay" hidden><div class="dialog"><div class="bigemoji" id="outcome-emoji">🏆</div><h2 id="outcome-title">Перемога!</h2><p id="outcome-text"></p><div class="outcome-clothing" id="outcome-clothes"></div><button id="next" class="action primary" type="button">Наступна партія →</button><small>Гардероб змінюється після завершення партії.</small></div></div>
+ </div>
+ <div id="ttt-screen" class="game-screen ttt-screen" role="tabpanel" aria-labelledby="tab-ttt" hidden>
+  <div class="ttt-header">
+   <div class="playername"><span class="icon-circle ttt-icon">✕</span><div><b>Ти проти суперниці</b><small>Ти — X · Суперниця — O</small></div></div>
+   <div class="ttt-score">
+    <span><b>ТИ</b> <strong id="ttt-wins">0</strong></span>
+    <span><b>НІЧИЇ</b> <strong id="ttt-draws">0</strong></span>
+    <span><b>ШІ</b> <strong id="ttt-losses">0</strong></span>
+   </div>
+  </div>
+  <div class="ttt-play-area">
+   <div class="ttt-intro"><span class="eyebrow">TIC · TAC · TOE</span><h2>Три в ряд</h2><p>Обери клітинку. Перший, хто збере три символи в ряд, перемагає.</p></div>
+   <div class="ttt-board-wrap">
+    <div id="ttt-board" class="ttt-board" aria-label="Ігрове поле хрестиків-нуликів" role="group">
+      <button class="ttt-cell" type="button" data-cell="0" aria-label="Клітинка 1"></button>
+      <button class="ttt-cell" type="button" data-cell="1" aria-label="Клітинка 2"></button>
+      <button class="ttt-cell" type="button" data-cell="2" aria-label="Клітинка 3"></button>
+      <button class="ttt-cell" type="button" data-cell="3" aria-label="Клітинка 4"></button>
+      <button class="ttt-cell" type="button" data-cell="4" aria-label="Клітинка 5"></button>
+      <button class="ttt-cell" type="button" data-cell="5" aria-label="Клітинка 6"></button>
+      <button class="ttt-cell" type="button" data-cell="6" aria-label="Клітинка 7"></button>
+      <button class="ttt-cell" type="button" data-cell="7" aria-label="Клітинка 8"></button>
+      <button class="ttt-cell" type="button" data-cell="8" aria-label="Клітинка 9"></button>
+    </div>
+   </div>
+   <div id="ttt-status" class="ttt-status" role="status" aria-live="polite"><span class="ttt-pulse"></span>Твій хід — постав ✕</div>
+   <div id="ttt-result" class="ttt-result" aria-live="polite" hidden></div>
+   <div class="ttt-controls"><label class="ttt-level-label" for="ttt-difficulty">РІВЕНЬ ШІ</label><select id="ttt-difficulty" class="ttt-select" aria-label="Складність суперниці"><option value="easy">Легкий</option><option value="normal" selected>Звичайний</option><option value="hard">Безжальний</option></select><button id="ttt-reset" class="action primary" type="button">↻ Нова гра</button></div>
+   <p class="ttt-note">Перемога — мінус одна річ із гардероба суперниці, поразка — плюс одна. Нічия нічого не змінює.</p>
+  </div>
+ </div>
+
  </section>
  <aside class="panel">
   <div class="panel-top"><div><span class="eyebrow">ТВОЯ СУПЕРНИЦЯ</span><h2>Моя ігрова версія</h2></div><span class="adult">Вигадана персонажка 25+</span></div>
@@ -78,7 +116,7 @@
   <div class="wardrobe" id="wardrobe"><div class="garment" data-tier="1"><span>🧣</span><small>Шарф</small></div><div class="garment" data-tier="2"><span>🧥</span><small>Жакет</small></div><div class="garment" data-tier="3"><span>👗</span><small>Спідниця</small></div><div class="garment" data-tier="4"><span>👚</span><small>Блуза</small></div><div class="garment" data-tier="5"><span>🧦</span><small>Легінси</small></div></div>
   <div class="bubble" id="bubble" aria-live="polite">Почнемо? Подивимось, хто сьогодні залишиться в дурнях. 😏</div>
   <div id="log" class="log" aria-live="polite"></div>
-  <div class="rules"><b>Правила:</b> 36 карт, до шести карт на руках, козир, підкидання лише номіналів зі столу. Твоя перемога знімає одну річ, моя повертає одну. Після п'ятої — закрите базове вбрання.</div>
+  <div class="rules" id="game-rules"><b>Правила:</b> 36 карт, до шести карт на руках, козир, підкидання лише номіналів зі столу. Твоя перемога знімає одну річ, моя повертає одну. Після п'ятої — закрите базове вбрання.</div>
   <p class="disclaimer">ШІ поки локальний, без підключення до ChatGPT API. Результати зберігаються у цьому браузері.</p>
  </aside>
 </div>
